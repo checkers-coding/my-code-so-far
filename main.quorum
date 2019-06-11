@@ -1,0 +1,48 @@
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Drawable
+use Libraries.Interface.Events.MouseEvent
+use Libraries.Interface.Events.MouseListener
+use Libraries.Game.Graphics.Color
+
+class Main is Game, MouseListener, MouseEvent
+
+    Color color
+    Drawable back
+
+    action Main
+        SetScreenSize(560, 560)
+        StartGame()
+    end
+
+    action CreateGame
+        AddMouseListener(me)
+        back:LoadFilledRectangle(560, 560, color:White())
+        back:SetPosition(0, 0)
+        Add(back)
+        Board()
+    end
+
+    action Update(number seconds)
+    end
+
+    action Board()
+        number rowsDone = 0
+        number boxesInRow = 0
+        repeat until rowsDone = 8
+            Drawable box
+            box:LoadFilledRectangle(70, 70)
+            box:SetColor(color:Black())
+            if (rowsDone mod 2) = 0
+                box:SetPosition(boxesInRow * 140, rowsDone * 70)
+            else
+                box:SetPosition((boxesInRow * 140) + 70, rowsDone * 70)
+            end
+            Add(box)
+            boxesInRow = boxesInRow + 1
+            if boxesInRow = 4
+                rowsDone = rowsDone + 1
+                boxesInRow = 0
+            end
+        end
+    end
+end
